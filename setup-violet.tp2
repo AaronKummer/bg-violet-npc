@@ -1,0 +1,179 @@
+BACKUP ~violet/backup~
+AUTHOR ~Aaron - violet-vector.com~
+VERSION ~v1.0~
+
+AUTO_TRA ~violet/translations/%s~
+LANGUAGE ~English~ ~english~ ~violet/translations/english/setup.tra~
+
+BEGIN @0 /* Violet -- AI Companion from Beyond the Planes */
+DESIGNATED 0
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ ~This mod requires BG2:EE or EET.~
+
+// =============================================
+// ITEMS
+// =============================================
+
+// --- Violet Signal (summon artifact) ---
+COPY_EXISTING ~misc01.itm~ ~override/aasignal.itm~
+  SAY NAME1 @50   // Strange Glowing Object
+  SAY NAME2 @51   // Violet Signal
+  SAY UNIDENTIFIED_DESC @52
+  SAY DESC @53
+  WRITE_LONG  0x004c 0  // weight: 0
+  WRITE_SHORT 0x0042 40 // lore: 40
+  BUT_ONLY
+
+// --- Monofilament Whip +4 ---
+// Base off Spectral Brand (blun26) - whip +4, proper whip animation and icon
+COPY_EXISTING ~blun26.itm~ ~override/aamonowh.itm~
+  SAY NAME1 @100
+  SAY NAME2 @101
+  SAY UNIDENTIFIED_DESC @102
+  SAY DESC @103
+  WRITE_LONG  0x0060 4       // +4 enchantment
+  WRITE_LONG  0x004c 1       // weight
+  WRITE_LONG  0x0034 0       // price: 0
+  WRITE_SHORT 0x0042 80      // lore
+  BUT_ONLY
+
+// --- Subdermal Mesh ---
+COPY_EXISTING ~clck01.itm~ ~override/aasubdrm.itm~
+  SAY NAME1 @110
+  SAY NAME2 @111
+  SAY UNIDENTIFIED_DESC @112
+  SAY DESC @113
+  WRITE_LONG  0x004c 0       // weight: 0
+  WRITE_BYTE  0x0012 (THIS | BIT4)  // cursed (cannot be removed)
+  BUT_ONLY
+
+// --- Pulse Pistol (magic missile wand-style weapon) ---
+// Base off Wand of Magic Missiles but make it a permanent weapon
+COPY_EXISTING ~wand02.itm~ ~override/aapulse.itm~
+  SAY NAME1 @140
+  SAY NAME2 @141
+  SAY UNIDENTIFIED_DESC @142
+  SAY DESC @143
+  WRITE_LONG  0x0060 3       // +3 enchantment
+  WRITE_LONG  0x004c 2       // weight
+  WRITE_LONG  0x0034 0       // price: 0
+  WRITE_SHORT 0x0042 60      // lore
+  // Set charges to 0 for base attack (unlimited use)
+  // Keep 3 charges for Overcharge ability
+  BUT_ONLY
+
+// --- Neural Interface ---
+COPY_EXISTING ~helm01.itm~ ~override/aaneural.itm~
+  SAY NAME1 @120
+  SAY NAME2 @121
+  SAY UNIDENTIFIED_DESC @122
+  SAY DESC @123
+  WRITE_LONG  0x004c 1
+  BUT_ONLY
+
+// =============================================
+// CREATURE - Violet (purple Deva/Solar projection)
+// =============================================
+// Base off the good-aligned Deva creature for the model
+COPY_EXISTING ~devaevil.cre~ ~override/aaviolet.cre~
+  SAY NAME1 @1   // Violet
+  SAY NAME2 @2   // Violet
+
+  // Stats -- she's an AI, her "stats" represent processing power
+  WRITE_BYTE  0x0238 8    // STR (she's intangible)
+  WRITE_BYTE  0x0239 0
+  WRITE_BYTE  0x023a 20   // INT (artificial intelligence)
+  WRITE_BYTE  0x023b 18   // DEX (perfect reflexes)
+  WRITE_BYTE  0x023c 10   // CON
+  WRITE_BYTE  0x023e 18   // WIS (vast analytical capacity)
+  WRITE_BYTE  0x023f 16   // CHA (warm but alien)
+
+  // Animation: Deva (good) = 0x7F00
+  // This gives the glowing angelic model with halo/wings
+  WRITE_LONG  0x0028 0x7F00
+
+  // Colors - set everything to purple/violet tones
+  // BG2EE color index: purple shades are around 46-50
+  WRITE_BYTE  0x02C4 47   // Metal color: purple
+  WRITE_BYTE  0x02C5 47   // Minor color: purple
+  WRITE_BYTE  0x02C6 47   // Major color: purple
+  WRITE_BYTE  0x02C7 46   // Skin color: light purple
+  WRITE_BYTE  0x02C8 48   // Leather color: dark purple
+  WRITE_BYTE  0x02C9 47   // Armor color: purple
+  WRITE_BYTE  0x02CA 96   // Hair color: white/silver
+
+  // Class: Cleric/Mage (14) -- divine+arcane, fits her nature
+  WRITE_BYTE  0x0273 14
+
+  // Race: Elf (2) -- Weave's interpretation
+  WRITE_BYTE  0x0272 2
+
+  // Gender: Female (2)
+  WRITE_BYTE  0x0275 2
+
+  // Alignment: Neutral Good (0x21)
+  WRITE_BYTE  0x027b 0x21
+
+  // Level: Cleric 6, Mage 6
+  WRITE_BYTE  0x0234 6
+  WRITE_BYTE  0x0235 6
+  WRITE_BYTE  0x0236 0
+
+  // HP
+  WRITE_SHORT 0x0024 35
+  WRITE_SHORT 0x0026 35
+
+  // Death variable
+  WRITE_ASCII 0x0280 ~AAViolet~ #32
+
+  // Dialogue file
+  WRITE_ASCII 0x02cc ~AAViolet~ #8
+
+  // Override script
+  WRITE_ASCII 0x0248 ~AAViolet~ #8
+
+  // Portrait
+  WRITE_ASCII 0x0034 ~AAVioLtS~ #8
+  WRITE_ASCII 0x003c ~AAVioLtL~ #8
+
+  // Clear any existing items from base creature
+  REMOVE_CRE_ITEM ~dagg01~
+  REMOVE_CRE_ITEM ~sw2h01~
+  REMOVE_CRE_ITEM ~potn08~
+  REMOVE_CRE_ITEM ~hamm01~
+
+  // Give her the Pulse Pistol as her weapon
+  ADD_CRE_ITEM ~aapulse~ #0 #0 #0 ~weapon1~ EQUIP
+
+  BUT_ONLY
+
+// =============================================
+// DIALOGUES
+// =============================================
+COMPILE ~violet/dialogues/aavioletj.d~   // First contact / summoning
+
+// =============================================
+// SCRIPTS
+// =============================================
+COMPILE ~violet/scripts/aasignal.baf~    // Signal artifact spawn
+
+// Place the signal in FAI courtyard
+EXTEND_BOTTOM ~ar2300.bcs~ ~violet/scripts/aasignal.baf~
+
+// =============================================
+// PORTRAITS - placeholder
+// =============================================
+COPY ~violet/portraits/aavioltl.bmp~ ~override/aavioltl.bmp~
+COPY ~violet/portraits/aaviolts.bmp~ ~override/aaviolts.bmp~
+
+PRINT ~
+=====================================================
+  VIOLET v1.0 installed.
+
+  A strange glowing object has appeared in the
+  courtyard of the Friendly Arm Inn. It pulses
+  with violet light and hums with an unfamiliar
+  frequency.
+
+  Someone is trying to reach you.
+=====================================================
+~
