@@ -156,10 +156,5 @@ The connection is -- *crackle* -- degrading. I can't hold this much longer. Take
 Be careful with it. It doesn't know the difference between what you're cutting and what you're holding. Like most dangerous things, it's perfectly democratic.
 
 *She smiles one more time -- that bright, alien, warm smile -- and dissolves into a shower of violet sparks that fade into nothing.*~
-  IF ~~ THEN DO ~SetGlobal("AAVioletMet","GLOBAL",1)
-                  SetGlobal("AAVioletJoined","GLOBAL",1)
-                  GiveItemCreate("aamonowh",LastTalkedToBy,0,0,0)
-                  DestroyItem("aasignal")
-                  CreateCreature("AAViolet",[0.0],0)
-                  JoinParty()~ THEN EXIT
+  IF ~~ THEN DO ~SetGlobal("AAVioletMet","GLOBAL",1) SetGlobal("AAVioletJoined","GLOBAL",1) GiveItemCreate("aamonowh",LastTalkedToBy,0,0,0) DestroyItem("aasignal") CreateCreature("AAViolet",[0.0],0) JoinParty()~ EXIT
 END

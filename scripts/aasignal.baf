@@ -1,13 +1,10 @@
 // Violet Signal Spawn Script
 // Places the Violet Signal artifact in the Friendly Arm Inn courtyard
-// ar2300 = FAI exterior/courtyard area
 
 IF
   Global("AASignalSpawned","GLOBAL",0)
 THEN
   RESPONSE #100
     SetGlobal("AASignalSpawned","GLOBAL",1)
-    // Create the signal device on the ground near the inn steps
-    // It glows purple -- hard to miss
-    CreateItem("aasignal",[525.670],0)
+    CreateItem("aasignal",0)
 END
