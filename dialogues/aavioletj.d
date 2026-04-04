@@ -2,7 +2,7 @@
 // Triggered when player uses the Violet Signal in the FAI courtyard
 // She materializes from the artifact in a burst of purple light
 
-BEGIN ~AAVioletJ~
+BEGIN ~AAVioleJ~
 
 IF ~True()~ THEN BEGIN VioletAppear1
   SAY ~*The object in your hand flares with blinding violet light. The air crackles. Reality stutters -- for a fraction of a second, the stone walls of the Friendly Arm Inn are replaced by something else: walls of glass and light, corridors of data, a city made of information.*

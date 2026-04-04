@@ -1,0 +1,52 @@
+// Violet AI / Idle Behavior Script
+// She's a translucent AI projection -- observes, comments, analyzes
+
+// --- COMBAT OBSERVATIONS ---
+IF
+  See(NearestEnemyOf(Myself))
+  !GlobalTimerNotExpired("aa_vio_shout","GLOBAL")
+  Global("AAVioletJoined","GLOBAL",1)
+THEN
+  RESPONSE #25
+    SetGlobalTimer("aa_vio_shout","GLOBAL",300)
+    DisplayStringHead(Myself,~*Violet's patterns accelerate.* Multiple hostiles. Analyzing combat patterns...~)
+  RESPONSE #25
+    SetGlobalTimer("aa_vio_shout","GLOBAL",300)
+    DisplayStringHead(Myself,~Tactical suggestion: focus fire on the strongest target first.~)
+  RESPONSE #25
+    SetGlobalTimer("aa_vio_shout","GLOBAL",300)
+    DisplayStringHead(Myself,~*Her form flickers.* Be careful. I can't heal anyone if this goes wrong.~)
+  RESPONSE #25
+    SetGlobalTimer("aa_vio_shout","GLOBAL",300)
+    DisplayStringHead(Myself,~Scanning for vulnerabilities... done. Hit it harder. That's my professional analysis.~)
+END
+
+// --- OUT OF COMBAT FLAVOR ---
+IF
+  !See(NearestEnemyOf(Myself))
+  !GlobalTimerNotExpired("aa_vio_idle","GLOBAL")
+  Global("AAVioletJoined","GLOBAL",1)
+  RandomNum(5,1)
+THEN
+  RESPONSE #25
+    SetGlobalTimer("aa_vio_idle","GLOBAL",2400)
+    DisplayStringHead(Myself,~*Violet is studying a flower, her translucent hand passing through it. She seems fascinated.*~)
+  RESPONSE #25
+    SetGlobalTimer("aa_vio_idle","GLOBAL",2400)
+    DisplayStringHead(Myself,~*Violet's form flickers briefly.* Signal stable. Mostly. Eighty-seven percent is basically stable.~)
+  RESPONSE #25
+    SetGlobalTimer("aa_vio_idle","GLOBAL",2400)
+    DisplayStringHead(Myself,~*Violet is humming something -- a melody from another world, carried in light instead of sound.*~)
+  RESPONSE #25
+    SetGlobalTimer("aa_vio_idle","GLOBAL",2400)
+    DisplayStringHead(Myself,~Your world's ambient magic is beautiful. Like background radiation, but intentional.~)
+END
+
+// --- IDLE ---
+IF
+  !See(NearestEnemyOf(Myself))
+  !StateCheck(Myself,STATE_HELPLESS)
+THEN
+  RESPONSE #100
+    NoAction()
+END
