@@ -1,0 +1,12 @@
+// Violet appearance at Iron Throne HQ top floor (BG0614 in EET)
+// Triggers after FAI appearance, once only
+IF
+  Global("AAVioletMet","GLOBAL",1)
+  Global("AAVioletFAI","GLOBAL",1)
+  Global("AAVioletIronThrone","GLOBAL",0)
+  Global("AAVioletITSpawn","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("AAVioletITSpawn","GLOBAL",1)
+    CreateCreature("aaviolet",[500.400],0)
+END

@@ -1,10 +1,12 @@
-// Violet Signal Spawn Script
-// Places the Violet Signal artifact in the Friendly Arm Inn courtyard
+// Violet Spawn Script
+// Spawns Violet in Candlekeep exterior (BG2600 in EET)
+// One-time encounter: she appears, gives the whip, vanishes
 
 IF
-  Global("AASignalSpawned","GLOBAL",0)
+  Global("AAVioletSpawned","GLOBAL",0)
+  Global("AAVioletMet","GLOBAL",0)
 THEN
   RESPONSE #100
-    SetGlobal("AASignalSpawned","GLOBAL",1)
-    CreateItem("aasignal",0)
+    SetGlobal("AAVioletSpawned","GLOBAL",1)
+    CreateCreature("AAViolet",[3270.2780],4)
 END

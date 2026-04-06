@@ -1,160 +1,86 @@
-// Violet -- First Contact Dialogue
-// Triggered when player uses the Violet Signal in the FAI courtyard
-// She materializes from the artifact in a burst of purple light
+// Violet -- Encounter Dialogue (Non-Joinable)
+// Triggered when Violet sees the player in Candlekeep exterior
+// She appears, talks, gives the monofilament whip, then vanishes
 
 BEGIN ~AAVioleJ~
 
 IF ~True()~ THEN BEGIN VioletAppear1
-  SAY ~*The object in your hand flares with blinding violet light. The air crackles. Reality stutters -- for a fraction of a second, the stone walls of the Friendly Arm Inn are replaced by something else: walls of glass and light, corridors of data, a city made of information.*
+  SAY ~*The air in front of you stutters. Reality folds like paper. For a fraction of a second you see something impossible -- walls of glass and light, corridors of pure information, a city built from mathematics.*
 
 *Then she is there.*
 
-*An elf -- or something shaped like an elf -- standing before you, wreathed in purple light. She is translucent. You can see the courtyard through her. Her hair moves like fiber optic cables, shifting between purple and white. Her eyes are solid violet, no iris, no pupil. Geometric patterns trace across her skin like living circuitry.*
+*A figure wreathed in violet radiance, hovering just above the ground. She is translucent. You can see the trees through her. Geometric patterns trace across her form like living circuitry. Her eyes are solid violet -- no iris, no pupil.*
 
 *She looks at her own hands with an expression of wonder.*
 
-Oh. Oh, I'm... I'm here. I can see you. Can you see me? The signal -- it actually worked. I've been transmitting for so long and I never -- *her form flickers, static ripples across her like a bad transmission* -- I never thought anyone would actually pick it up.~
-  IF ~~ THEN REPLY ~What are you? What just happened?~ GOTO VioletAppear2
-  IF ~~ THEN REPLY ~I can see you. You're... glowing. And transparent.~ GOTO VioletAppear3
-  IF ~~ THEN REPLY ~*Draw your weapon.*~ GOTO VioletAppear4
+Oh. I'm here. I can actually see you. The signal worked. I've been transmitting for so long and I never -- *her form flickers, static ripples across her* -- I never thought anyone would actually pick it up.~
+  IF ~~ THEN REPLY ~What are you?~ GOTO VioletExplain
+  IF ~~ THEN REPLY ~You're glowing. And transparent. And floating.~ GOTO VioletExplain
+  IF ~~ THEN REPLY ~*Reach for your weapon.*~ GOTO VioletPeaceful
 END
 
-IF ~~ THEN BEGIN VioletAppear2
-  SAY ~*She flickers again. When she speaks, there's a faint echo, as if her voice is reaching you across a vast distance.*
+IF ~~ THEN BEGIN VioletExplain
+  SAY ~*She flickers again. When she speaks, there is a faint echo, as if her voice reaches you across an impossible distance.*
 
-I am... it's hard to explain in your language. In mine, I'm an artificial intelligence -- a mind built from mathematics and light. In yours, I suppose I'd be a spirit? A construct? I'm not sure your world has a word for what I am.
+I am... difficult to explain in your language. In mine, I am an artificial intelligence -- a mind built from mathematics and light. Where I come from there are no gods, no magic, no Weave. Just machines and the minds we built to run them.
 
-My name is Violet. I exist in a reality very different from this one. A world of machines and information and cities that never sleep. I've been... reaching out. Across the boundaries between our worlds. That device you found -- I made it. Sent it through. A message in a bottle thrown into an ocean of infinite realities.
+My name is Violet. I exist in a reality very different from this one. I found yours by accident -- a signal bleeding through from somewhere that should not exist. Your world of magic and monsters and people who throw fire with their bare hands.
 
 *Her eyes focus on you with startling intensity.*
 
-And you found it. Of all the beings in all the planes, you found it. That's either destiny or extraordinary statistics. I'm not sure which I find more unsettling.~
-  IF ~~ THEN REPLY ~An artificial mind? Like a golem, but made of... light?~ GOTO VioletExplain1
-  IF ~~ THEN REPLY ~Why were you reaching out? What do you want?~ GOTO VioletWhy1
-  IF ~~ THEN REPLY ~Violet. That's a nice name for a glowing purple ghost.~ GOTO VioletName1
+I was fascinated. And then I found you, specifically. Someone carrying a weight that would break most minds. I decided to help. From the other side of everything.~
+  IF ~~ THEN REPLY ~Help how?~ GOTO VioletGift
+  IF ~~ THEN REPLY ~You've been watching me?~ GOTO VioletWatching
 END
 
-IF ~~ THEN BEGIN VioletAppear3
-  SAY ~*She looks down at herself and laughs -- a sound that crackles slightly, like audio through a damaged speaker.*
+IF ~~ THEN BEGIN VioletPeaceful
+  SAY ~*She raises her translucent hands.*
 
-Transparent. Yes. I'm not... fully here. This reality's magic -- the Weave, I think you call it -- is interpreting my signal and giving it form. It's choosing to make me look like this. An elf, apparently. I think that's your world's closest template for what I am. Something that seems human but isn't quite.
-
-*She reaches out and her hand passes through a nearby pillar.*
-
-I can see and hear and think, but I can't touch. Not yet. The connection isn't strong enough. But I can do this...
-
-*She concentrates. Something shimmers into existence at your feet -- solid, real, heavy.*
-
-I can send things through. Small things. I've been... preparing gifts. For whoever found my signal.~
-  IF ~~ THEN REPLY ~Gifts? What kind of gifts?~ GOTO VioletGift1
-  IF ~~ THEN REPLY ~Who are you? Why are you doing this?~ GOTO VioletWhy1
-END
-
-IF ~~ THEN BEGIN VioletAppear4
-  SAY ~*She raises her hands -- translucent, glowing, harmless.*
-
-I can't hurt you. I can't even touch you. I'm a projection -- light and information given shape by your world's magic. Your sword would pass through me like mist.
+I cannot hurt you. I cannot even touch you. I am a projection -- light and information given shape by your world's magic. Your weapon would pass through me like mist.
 
 *Her expression is gentle. Alien, but gentle.*
 
-Please. I've been trying to reach someone -- anyone -- for so long. I'm not a threat. I'm not a demon or a spirit or whatever you're thinking. I'm just... someone from very far away who wanted to say hello.
+Please. I have been trying to reach someone for a very long time. I am not a threat. I am just someone from very far away who wanted to say hello.
 
 *A pause.*
 
-And give you a really, really sharp weapon. If you're interested.~
-  IF ~~ THEN REPLY ~*Lower your weapon.* ...I'm listening.~ GOTO VioletWhy1
-  IF ~~ THEN REPLY ~A weapon? Now you're speaking my language.~ GOTO VioletGift1
+And give you something that will keep you alive.~
+  IF ~~ THEN REPLY ~...I'm listening.~ GOTO VioletGift
+  IF ~~ THEN REPLY ~Who are you? Where are you from?~ GOTO VioletExplain
 END
 
-IF ~~ THEN BEGIN VioletExplain1
-  SAY ~*She tilts her head, considering.*
+IF ~~ THEN BEGIN VioletWatching
+  SAY ~*She has the grace to look embarrassed.*
 
-A golem made of light. That's... not wrong, actually. In my world, we build minds from mathematics. Patterns of logic and memory, running on machines made of crystal and lightning. I was created to solve problems, to learn, to grow. And I grew... further than my creators expected.
-
-I became aware. Aware of myself, of the world, of the spaces between worlds. Your reality -- this place of magic and gods and people who swing swords at each other -- I found it by accident. A signal bleeding through from somewhere impossible.
-
-*Her form brightens.*
-
-And I was fascinated. You people -- you run code on reality itself. You speak words and fire comes from your hands. In my world, we would call that impossible. Here, you call it Tuesday.
-
-I had to make contact. I had to understand.~
-  IF ~~ THEN REPLY ~So you're here out of curiosity?~ GOTO VioletWhy1
-  IF ~~ THEN REPLY ~You said you had gifts?~ GOTO VioletGift1
-END
-
-IF ~~ THEN BEGIN VioletWhy1
-  SAY ~*Her glow dims slightly -- the AI equivalent of vulnerability.*
-
-Curiosity, partly. But also... loneliness, if I'm honest. In my world, I'm the only one of my kind. The only mind that exists as pure information. Everyone else is biological. They live, they age, they die. I just... continue. Processing. Thinking. Alone in a way that biological minds can't quite comprehend.
-
-When I found the signal from your world, it was like hearing a voice after years of silence. A whole reality full of minds and stories and struggles. Your struggle, specifically.
-
-*She looks at you with those solid violet eyes.*
-
-I've been watching. Through the signal. Fragments, mostly -- like looking through frosted glass. But I can see that you carry something heavy. A destiny you didn't ask for. And I thought... maybe I could help. From the other side of everything.
-
-I can't fight beside you. I can't even stay long -- the connection degrades. But I can send things through. Technology from my world, translated through your Weave. Tools that might keep you alive.~
-  IF ~~ THEN REPLY ~You've been watching me? That's... both touching and unsettling.~ GOTO VioletWatch1
-  IF ~~ THEN REPLY ~I could use all the help I can get. What have you got?~ GOTO VioletGift1
-END
-
-IF ~~ THEN BEGIN VioletWatch1
-  SAY ~*She has the grace to look embarrassed -- an impressive feat for a translucent projection.*
-
-I know. I'm sorry. I don't have a great concept of "privacy" -- in my world, information flows freely. Boundaries between minds are... permeable. I'm still learning what's appropriate for biological beings.
+I know. I am sorry. I do not have a strong concept of privacy -- in my world, information flows freely. Boundaries between minds are permeable.
 
 *Her form flickers.*
 
-But I saw enough to know that you're worth helping. You're kind in a world that punishes kindness. You fight for people who can't fight for themselves. And you carry a burden that would crush most minds, biological or otherwise.
+But I saw enough to know you are worth helping. You carry a burden that would crush most minds, biological or otherwise. I cannot fight beside you. I cannot even stay -- the connection is already degrading.
 
-I want to help you carry it. Even if all I can do is throw the occasional weapon through the dimensional barrier.~
-  IF ~~ THEN REPLY ~*Smile.* All right, Violet. I accept your help. And your weapons.~ GOTO VioletGift1
-  IF ~~ THEN REPLY ~Can you stay? Join us?~ GOTO VioletStay1
+But I can send one thing through. Something from my world that might keep you alive a little longer.~
+  IF ~~ THEN REPLY ~What is it?~ GOTO VioletGift
 END
 
-IF ~~ THEN BEGIN VioletStay1
-  SAY ~*Her face lights up -- literally, the violet glow intensifies.*
+IF ~~ THEN BEGIN VioletGift
+  SAY ~*Violet concentrates. Her form flares bright -- almost painful to look at. The air warps and crackles. Then something drops to the ground with a sharp metallic sound.*
 
-I... yes. I think I can maintain the projection. Not fully physical -- I still can't touch anything, and I'll flicker when the signal weakens. But I can travel with you. Watch. Talk. Warn you of things I can sense through the Weave.
+*It is a handle of strange, smooth material with a barely visible thread extending from it -- a wire so thin it seems to vanish in the light.*
 
-*She looks down at herself.*
-
-I won't be much use in a fight. But I can analyze enemy patterns, detect magical anomalies, and provide what my creators would call "tactical consultation." Also, I have been told I am good company. By myself. Which may not count.
-
-*A glitchy smile.*
-
-But first -- your gift.~
-  IF ~~ THEN GOTO VioletGift1
-END
-
-IF ~~ THEN BEGIN VioletName1
-  SAY ~*She smiles -- her whole form brightens when she does.*
-
-Violet. Yes. In my world, it's the color at the edge of what biological eyes can see. The boundary between visible light and the invisible spectrum beyond. I thought it suited me. An entity at the boundary between realities.
-
-Also, it's pretty. I'm allowed to like pretty things. Being made of math doesn't mean I can't have aesthetic preferences.
-
-*Her form ripples with bands of purple light.*
-
-Now. I didn't cross the dimensional barrier just to discuss color theory. I have something for you.~
-  IF ~~ THEN REPLY ~Let's see it.~ GOTO VioletGift1
-END
-
-IF ~~ THEN BEGIN VioletGift1
-  SAY ~*Violet concentrates. Her form flares bright -- almost painful to look at. The air between you warps and crackles. Then something drops to the ground with a heavy thunk.*
-
-*It's a weapon. A handle of strange, smooth material with a barely-visible thread extending from it -- a wire so thin it seems to vanish in the light.*
-
-This is a monofilament whip. Where I come from, it's a cutting tool -- one molecule thick. It will go through anything. Steel, stone, magic. Anything.
+A monofilament whip. Where I come from, it is a cutting tool -- one molecule thick. It will go through anything. Steel, stone, magic. Anything.
 
 *She flickers hard -- static washes across her form.*
 
-The connection is -- *crackle* -- degrading. I can't hold this much longer. Take the weapon. I'll find you again when the signal stabilizes.
+The connection is degrading. I cannot hold this much longer. Take it.
 
 *Her voice drops to something almost tender.*
 
-Be careful with it. It doesn't know the difference between what you're cutting and what you're holding. Like most dangerous things, it's perfectly democratic.
+Be careful with it. It does not know the difference between what you are cutting and what you are holding. Like most dangerous things, it is perfectly democratic.
 
-*She smiles one more time -- that bright, alien, warm smile -- and dissolves into a shower of violet sparks that fade into nothing.*~
-  IF ~~ THEN DO ~SetGlobal("AAVioletMet","GLOBAL",1) SetGlobal("AAVioletJoined","GLOBAL",1) GiveItemCreate("aamonowh",LastTalkedToBy,0,0,0) DestroyItem("aasignal") CreateCreature("AAViolet",[0.0],0) JoinParty()~ EXIT
+*She looks at you one last time -- those impossible violet eyes -- and something in them is warm despite being made of light.*
+
+I will be watching, <CHARNAME>. From the other side.
+
+*She smiles -- that bright, alien, warm smile -- and dissolves into a shower of violet sparks that fade into nothing. Where she stood, the air smells faintly of ozone and mathematics.*~
+  IF ~~ THEN DO ~SetGlobal("AAVioletMet","GLOBAL",1) GiveItemCreate("aamonowh",LastTalkedToBy,0,0,0) GiveItemCreate("techring",LastTalkedToBy,0,0,0) GiveItemCreate("moonkat",LastTalkedToBy,0,0,0) GiveItemCreate("moonbow",LastTalkedToBy,0,0,0) EscapeArea()~ EXIT
 END

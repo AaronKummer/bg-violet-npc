@@ -1,0 +1,13 @@
+// Violet appearance at Friendly Arm Inn (BG2300 in EET)
+// Triggers after first meeting, once only
+IF
+  Global("AAVioletMet","GLOBAL",1)
+  Global("AAVioletFAI","GLOBAL",0)
+  Global("AAVioletFAISpawn","GLOBAL",0)
+  !GlobalTimerNotExpired("AAVioletSpawnTimer","GLOBAL")
+THEN
+  RESPONSE #100
+    SetGlobal("AAVioletFAISpawn","GLOBAL",1)
+    SetGlobalTimer("AAVioletSpawnTimer","GLOBAL",60)
+    CreateCreature("aaviolet",[2500.2800],0)
+END

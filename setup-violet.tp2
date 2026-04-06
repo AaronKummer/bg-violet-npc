@@ -5,91 +5,64 @@ VERSION ~v1.0~
 AUTO_TRA ~violet/translations/%s~
 LANGUAGE ~English~ ~english~ ~violet/translations/english/setup.tra~
 
-BEGIN @0 /* Violet -- AI Companion from Beyond the Planes */
+BEGIN @0 /* Violet -- Encounter from Beyond the Planes */
 DESIGNATED 0
 REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ ~This mod requires BG2:EE or EET.~
 
 // =============================================
 // ITEMS
 // =============================================
+// Note: Monofilament Whip is now created by the aaitems mod (dagger-based).
+// Violet's dialogue gives the player the whip via GiveItemCreate.
+// No duplicate item creation needed here.
 
-// --- Violet Signal (summon artifact) ---
-COPY_EXISTING ~misc01.itm~ ~override/aasignal.itm~
-  SAY NAME1 @50
-  SAY NAME2 @51
-  SAY UNIDENTIFIED_DESC @52
-  SAY DESC @53
-  WRITE_LONG  0x004c 0
-  WRITE_SHORT 0x0042 40
-  BUT_ONLY
+// --- Kerry's tech items (merged from standalone Kerry mod) ---
+// Fix: patch icons to base game resources (originals were from mods no longer installed)
+COPY ~violet/items/techring.ITM~ ~override~
+  SAY NAME1 ~Tech Ring~
+  SAY NAME2 ~Tech Ring~
+  WRITE_ASCII 0x003A ~IRING06~ #8   // inventory icon (base game ring)
+  WRITE_ASCII 0x0058 ~CRING06~ #8   // description icon
 
-// --- Monofilament Whip +4 ---
-// Base off Spectral Brand (blun26) - whip +4, proper whip animation and icon
-COPY_EXISTING ~blun26.itm~ ~override/aamonowh.itm~
-  SAY NAME1 @100
-  SAY NAME2 @101
-  SAY UNIDENTIFIED_DESC @102
-  SAY DESC @103
-  WRITE_LONG  0x0060 4
-  WRITE_LONG  0x004c 1
-  WRITE_LONG  0x0034 0
-  WRITE_SHORT 0x0042 80
-  BUT_ONLY
+COPY ~violet/items/moonkat.ITM~ ~override~
+  SAY NAME1 ~Moonblade Katana~
+  SAY NAME2 ~Moonblade Katana~
+  WRITE_ASCII 0x003A ~ISW1H44~ #8   // inventory icon (base game katana)
+  WRITE_ASCII 0x0044 ~GSW1H01~ #8   // ground icon
+  WRITE_ASCII 0x0058 ~CSW1H44~ #8   // description icon
+  // Fix ability header icon too (offset 0x0076 = ability 0 icon)
+  READ_LONG 0x0064 abil_off
+  WRITE_ASCII (abil_off + 0x04) ~ISW1H44~ #8
 
-// --- Subdermal Mesh ---
-COPY_EXISTING ~clck01.itm~ ~override/aasubdrm.itm~
-  SAY NAME1 @110
-  SAY NAME2 @111
-  SAY UNIDENTIFIED_DESC @112
-  SAY DESC @113
-  WRITE_LONG  0x004c 0
-  WRITE_BYTE  0x0012 (THIS | BIT4)
-  BUT_ONLY
-
-// --- Pulse Pistol (magic missile wand-style weapon) ---
-// Base off Wand of Magic Missiles but make it a permanent weapon
-COPY_EXISTING ~wand02.itm~ ~override/aapulse.itm~
-  SAY NAME1 @140
-  SAY NAME2 @141
-  SAY UNIDENTIFIED_DESC @142
-  SAY DESC @143
-  WRITE_LONG  0x0060 3
-  WRITE_LONG  0x004c 2
-  WRITE_LONG  0x0034 0
-  WRITE_SHORT 0x0042 60
-  // Set charges to 0 for base attack (unlimited use)
-  // Keep 3 charges for Overcharge ability
-  BUT_ONLY
-
-// --- Neural Interface ---
-COPY_EXISTING ~helm01.itm~ ~override/aaneural.itm~
-  SAY NAME1 @120
-  SAY NAME2 @121
-  SAY UNIDENTIFIED_DESC @122
-  SAY DESC @123
-  WRITE_LONG  0x004c 1
-  BUT_ONLY
+COPY ~violet/items/moonbow.ITM~ ~override~
+  SAY NAME1 ~Moonbow~
+  SAY NAME2 ~Moonbow~
+  WRITE_ASCII 0x003A ~IBOW05~ #8    // inventory icon (base game bow)
+  WRITE_ASCII 0x0044 ~GBOW05~ #8    // ground icon
+  WRITE_ASCII 0x0058 ~CBOW05~ #8    // description icon
+  READ_LONG 0x0064 abil_off
+  WRITE_ASCII (abil_off + 0x04) ~IBOW05~ #8
 
 // =============================================
-// CREATURE - Violet (purple Deva/Solar projection)
+// CREATURE - Violet (AI projection -- non-joinable encounter)
 // =============================================
-// Base off the good-aligned Deva creature for the model
-COPY_EXISTING ~minsc.cre~ ~override/aaviolet.cre~
+// Base off aerie.cre (valid elf female model with complete CRE structure)
+COPY_EXISTING ~aerie.cre~ ~override/aaviolet.cre~
   SAY NAME1 @1
   SAY NAME2 @2
 
-  // Stats
-  WRITE_BYTE  0x0238 8
-  WRITE_BYTE  0x0239 0
-  WRITE_BYTE  0x023a 20
-  WRITE_BYTE  0x023b 18
-  WRITE_BYTE  0x023c 10
-  WRITE_BYTE  0x023e 18
-  WRITE_BYTE  0x023f 16
+  // Stats (mostly irrelevant since she is non-joinable, but set for flavor)
+  WRITE_BYTE  0x0238 8   // STR
+  WRITE_BYTE  0x0239 0   // STR bonus
+  WRITE_BYTE  0x023a 20  // DEX
+  WRITE_BYTE  0x023b 18  // CON
+  WRITE_BYTE  0x023c 10  // INT
+  WRITE_BYTE  0x023e 18  // WIS
+  WRITE_BYTE  0x023f 16  // CHA
 
-  // Animation: Deva (good) = 0x7F00
-  // This gives the glowing angelic model with halo/wings
-  WRITE_LONG  0x0028 0x7F00
+  // Animation: 0x7F3B (Deva) -- glowing angelic projection
+  // Previous crash was from wrong color byte offsets, not the animation itself
+  WRITE_LONG  0x0028 0x7F3B
 
   // Class: Cleric/Mage (14) -- divine+arcane, fits her nature
   WRITE_BYTE  0x0273 14
@@ -115,44 +88,59 @@ COPY_EXISTING ~minsc.cre~ ~override/aaviolet.cre~
   // Death variable
   WRITE_ASCII 0x0280 ~AAViolet~ #32
 
-  // Dialogue (player-initiated talk)
-  WRITE_ASCII 0x02cc ~AAVioleP~ #8
+  // Dialogue ref: points to encounter dialogue (non-join)
+  WRITE_ASCII 0x02cc ~AAVioleJ~ #8
 
-  // Override script
+  // Override script -- simple dialogue initiation only
   WRITE_ASCII 0x0248 ~AAViolet~ #8
 
-  // Portrait
+  // Portrait (still used for dialogue window)
   WRITE_ASCII 0x0034 ~AAVioLtS~ #8
   WRITE_ASCII 0x003c ~AAVioLtL~ #8
 
-  // Clear any existing items from base creature
-  REMOVE_CRE_ITEM ~sw2h01~
-  REMOVE_CRE_ITEM ~leat01~
-  REMOVE_CRE_ITEM ~potn08~
+  // Colors: purple tones (CRE V1.0 correct offsets: 0x002C-0x0032)
+  WRITE_BYTE  0x002C 47  // Metal color: purple
+  WRITE_BYTE  0x002D 47  // Minor color: purple
+  WRITE_BYTE  0x002E 47  // Major color: purple
+  WRITE_BYTE  0x002F 16  // Skin color: pale
+  WRITE_BYTE  0x0032 96  // Hair color: light purple
+
+  // Remove ALL items inherited from base creature (Aerie's gear)
   REMOVE_CRE_ITEM ~staf01~
   REMOVE_CRE_ITEM ~shld01~
+  REMOVE_CRE_ITEM ~potn08~
+  REMOVE_CRE_ITEM ~ring01~
+  REMOVE_CRE_ITEM ~helm01~
+  REMOVE_CRE_ITEM ~clck01~
+  REMOVE_CRE_ITEM ~brac01~
+  REMOVE_CRE_ITEM ~boot01~
+  REMOVE_CRE_ITEM ~misc01~
   REMOVE_CRE_ITEM ~dagg01~
-  REMOVE_CRE_ITEM ~hamm01~
 
-  // Give her the Pulse Pistol as her weapon
-  ADD_CRE_ITEM ~aapulse~ #0 #0 #0 ~IDENTIFIED~ ~WEAPON1~
-
-  BUT_ONLY
+  // No equipment -- she is an intangible projection, not a party member
 
 // =============================================
 // DIALOGUES
 // =============================================
-COMPILE ~violet/dialogues/aavioletj.d~   // First contact / summoning
-COMPILE ~violet/dialogues/aavioletp.d~   // Player-initiated talk
+COMPILE ~violet/dialogues/aavioletj.d~   // Encounter dialogue (non-joinable)
+COMPILE ~violet/dialogues/aavioletb.d~   // Interdimensional appearances (FAI, Iron Throne)
 
 // =============================================
 // SCRIPTS
 // =============================================
-COMPILE ~violet/scripts/aasignal.baf~    // Signal artifact spawn
-COMPILE ~violet/scripts/aaviolet.baf~    // Violet AI / idle behavior
+COMPILE ~violet/scripts/aasignal.baf~    // Spawn script for Candlekeep
+COMPILE ~violet/scripts/aaviolet.baf~    // Dialogue initiation only
+COMPILE ~violet/scripts/aaviolb1.baf~    // Spawn at Friendly Arm Inn
+COMPILE ~violet/scripts/aaviolb2.baf~    // Spawn at Iron Throne HQ
 
-// Place the signal in FAI courtyard
-EXTEND_BOTTOM ~ar2300.bcs~ ~violet/scripts/aasignal.baf~
+// Spawn Violet directly in Candlekeep exterior (BG2600 in EET)
+EXTEND_BOTTOM ~BG2600.bcs~ ~violet/scripts/aasignal.baf~
+
+// Spawn Violet at Friendly Arm Inn (after first meeting)
+EXTEND_BOTTOM ~BG2300.bcs~ ~violet/scripts/aaviolb1.baf~
+
+// Spawn Violet at Iron Throne HQ top floor (after FAI appearance)
+EXTEND_BOTTOM ~BG0614.bcs~ ~violet/scripts/aaviolb2.baf~
 
 // =============================================
 // PORTRAITS - placeholder
@@ -164,11 +152,12 @@ PRINT ~
 =====================================================
   VIOLET v1.0 installed.
 
-  A strange glowing object has appeared in the
-  courtyard of the Friendly Arm Inn. It pulses
-  with violet light and hums with an unfamiliar
-  frequency.
+  A glowing figure has appeared outside Candlekeep.
+  She has a gift for you, and a message from
+  somewhere that should not exist.
 
-  Someone is trying to reach you.
+  Non-joinable encounter. She gives you the
+  Monofilament Whip, Tech Ring, Moonblade Katana,
+  and Moonbow, then vanishes.
 =====================================================
 ~
